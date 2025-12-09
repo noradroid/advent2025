@@ -1,25 +1,37 @@
-package main
+package day1
 
 import (
+	"advent2025/utils"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 )
 
-const (
-	INPUT_URL   = "https://adventofcode.com/2025/day/1/input"
-	SAMPLE_FILE = "sample1.txt"
-	INPUT_FILE  = "input.txt"
-)
-
-func main() {
-	input := readInputFromFile(INPUT_FILE)
+func Run() {
+	const (
+		DAY         = "1"
+		INPUT_URL   = "https://adventofcode.com/2025/day/" + DAY + "/input"
+		SAMPLE_FILE = "day" + DAY + "/sample.txt"
+		INPUT_FILE  = "day" + DAY + "/input.txt"
+	)
+	fmt.Printf("================= DAY %s =================\n", DAY)
+	fmt.Println("   Sample:")
+	content := utils.ReadInputFromFile(SAMPLE_FILE)
+	input := parse(content)
 	part1(input)
 	part2(input)
+	fmt.Println("   Actual:")
+	content = utils.ReadInputFromFile(INPUT_FILE)
+	input = parse(content)
+	part1(input)
+	part2(input)
+}
+
+func parse(input string) []string {
+	return strings.Split(input, "\n")
 }
 
 func part2(input []string) {
@@ -114,22 +126,12 @@ func part1(input []string) {
 	fmt.Printf("result:\n%d\n", count)
 }
 
-func readInputFromFile(fileName string) []string {
-	content, err := os.ReadFile(fileName)
-	if err != nil {
-		log.Fatalf("error reading from file %s: %v\n", fileName, err)
-	}
-	cont := string(content)
-
-	return strings.Split(cont, "\n")
-}
-
-func readInputFromUrl() []string {
+func readInputFromUrl(inputUrl string) []string {
 	httpClient := http.DefaultClient
 
-	resp, err := httpClient.Get(INPUT_URL)
+	resp, err := httpClient.Get(inputUrl)
 	if err != nil {
-		log.Fatalf("error fetching input from %s: %v\n", INPUT_URL, err)
+		log.Fatalf("error fetching input from %s: %v\n", inputUrl, err)
 	}
 	defer resp.Body.Close()
 
