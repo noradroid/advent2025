@@ -28,11 +28,6 @@ func Run() {
 	part2(input)
 }
 
-type Range struct {
-	Start int
-	End   int
-}
-
 func parse(input string) []string {
 	lines := strings.Split(input, "\n")
 	for i := range len(lines) {
